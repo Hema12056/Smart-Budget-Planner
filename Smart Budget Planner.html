@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Budget Planner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 350px;
+            margin: auto;
+            margin-top: 50px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            margin-top: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .output-section {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        td[contenteditable="true"] {
+            background-color: #f9f9f9;
+            cursor: text;
+        }
+
+        td[contenteditable="true"]:focus {
+            outline: 2px solid #4CAF50;
+            background-color: #fff8e1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Budget Planner</h1>
+
+        <label for="salary">Monthly Salary (₹):</label>
+        <input type="number" id="salary" placeholder="Enter your salary">
+
+        <label for="savings">Savings Goal (₹):</label>
+        <input type="number" id="savings" placeholder="Enter savings goal">
+
+        <button onclick="calculateBudget()">Plan Budget</button>
+
+        <div id="budget-output" class="output-section" style="display:none;">
+            <h2>Your Budget Plan</h2>
+            <p><i>Click on any amount below to edit it.</i></p>
+            <table>
+                <tr>
+                    <th>Category</th>
+                    <th>Amount (₹)</th>
+                </tr>
+                <tr>
+                    <td>Housing & Bills (30%)</td>
+                    <td contenteditable="true" id="housing"></td>
+                </tr>
+                <tr>
+                    <td>Groceries & Essentials (20%)</td>
+                    <td contenteditable="true" id="groceries"></td>
+                </tr>
+                <tr>
+                    <td>Transport & Utilities (15%)</td>
+                    <td contenteditable="true" id="transport"></td>
+                </tr>
+                <tr>
+                    <td>Leisure & Personal (15%)</td>
+                    <td contenteditable="true" id="leisure"></td>
+                </tr>
+                <tr>
+                    <td>Savings</td>
+                    <td contenteditable="true" id="final-savings"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function calculateBudget() {
+            let salary = parseFloat(document.getElementById("salary").value);
+            let savings = parseFloat(document.getElementById("savings").value);
+
+            if (isNaN(salary) || isNaN(savings) || savings > salary) {
+                alert("Please enter valid numbers (savings must be less than salary).");
+                return;
+            }
+
+            let remaining = salary - savings;
+
+            let housingAmount = remaining * 0.3;
+            let groceriesAmount = remaining * 0.2;
+            let transportAmount = remaining * 0.15;
+            let leisureAmount = remaining * 0.15;
+
+            document.getElementById("housing").innerText = housingAmount.toFixed(2);
+            document.getElementById("groceries").innerText = groceriesAmount.toFixed(2);
+            document.getElementById("transport").innerText = transportAmount.toFixed(2);
+            document.getElementById("leisure").innerText = leisureAmount.toFixed(2);
+            document.getElementById("final-savings").innerText = savings.toFixed(2);
+
+            document.getElementById("budget-output").style.display = "block";
+        }
+    </script>
+</body>
+</html>
